@@ -15,7 +15,8 @@ export default createTheme({
         common: {
             arcBlue: `${arcBlue}`,
             arcOrange : `${arcOrange}`,
-            white: `${white}`
+            white: `${white}`,
+            pitchBlack: `${pitchBlack}`
         },
         primary: {
             main: `${primaryColor}`,

@@ -31,6 +31,12 @@ const StyledTab = styled(Tab)(({theme})=>({
       },
 }))
 
+const LogoContainer = styled(IconButton)(({theme})=>({
+    height: '1rem',
+    width: '1rem',
+    color: theme.palette.common.pitchBlack
+}))
+
 const StyledTabsContainer = styled(Tabs)(({theme})=>({
     marginLeft: 'auto',
     marginRight: '4rem'
@@ -65,17 +71,13 @@ const ResponsiveAppBar = () => {
     <AppBar position="fixed" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters={false}>
-        <Button
-              size="small"
-              edge="start"
-              color="secondary"
-              aria-label="open drawer"
-            >
+        <LogoContainer sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
               <img
+                style={{height: 'inherit'}}
                 alt="Spiderman"
                 src={logo}
               />
-            </Button>
+            </LogoContainer>
           <Typography
             variant="h6"
             noWrap
@@ -121,14 +123,15 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+          <LogoContainer
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
-          </Typography>
+            <img
+                style={{height: 'inherit'}}
+                alt="Spiderman"
+                src={logo}
+              />
+            </LogoContainer>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <StyledTabsContainer
                 value={currentTab}
