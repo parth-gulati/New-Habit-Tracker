@@ -36,6 +36,18 @@ const LogoContainer = styled(IconButton)(({ theme }) => ({
   color: theme.palette.common.pitchBlack,
 }));
 
+const StyledDiv = styled(`div`)(({theme})=>({
+  ...theme.mixins.toolbar,
+  marginBottom: "1em",
+  [theme.breakpoints.down("md")]: {
+    marginBottom: "1em"
+  },
+  [theme.breakpoints.down("xs")]: {
+    marginBottom: "1em"
+  }
+  
+}))
+
 const StyledTabsContainer = styled(Tabs)(({ theme }) => ({
   marginLeft: "auto",
   marginRight: "4rem",
@@ -87,6 +99,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
+    <>
     <AppBar position="fixed" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters={false}>
@@ -161,9 +174,7 @@ const ResponsiveAppBar = () => {
               indicatorColor="primary"
             >
               {pages.map((page) => (
-                <StyledTab key={page} label={page} onClick={handleCloseNavMenu}>
-                  {page}
-                </StyledTab>
+                <StyledTab key={page} label={page} onClick={handleCloseNavMenu}/>
               ))}
             </StyledTabsContainer>
           </Box>
@@ -204,6 +215,8 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+    <StyledDiv />
+    </>
   );
 };
 export default ResponsiveAppBar;
