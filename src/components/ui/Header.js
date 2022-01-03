@@ -32,14 +32,17 @@ const StyledTab = styled(Tab)(({theme})=>({
 }))
 
 const LogoContainer = styled(IconButton)(({theme})=>({
-    height: '1rem',
-    width: '1rem',
+    height: '2rem',
     color: theme.palette.common.pitchBlack
 }))
 
 const StyledTabsContainer = styled(Tabs)(({theme})=>({
     marginLeft: 'auto',
-    marginRight: '4rem'
+    marginRight: '4rem',
+    '& .MuiTabs-indicator': {
+        backgroundColor: theme.palette.common.pitchBlack,
+        opacity: 0.4
+      },
 }))
 
 
@@ -71,7 +74,12 @@ const ResponsiveAppBar = () => {
     <AppBar position="fixed" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters={false}>
-        <LogoContainer sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+        <LogoContainer
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
               <img
                 style={{height: 'inherit'}}
                 alt="Spiderman"
@@ -123,15 +131,20 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
           <LogoContainer
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
           >
-            <img
+             <img
                 style={{height: 'inherit'}}
                 alt="Spiderman"
                 src={logo}
               />
             </LogoContainer>
+            </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <StyledTabsContainer
                 value={currentTab}
