@@ -2,7 +2,8 @@ import { createTheme } from "@mui/material/styles"
 
 const arcBlue = '#0B72B9';
 const arcOrange = '#FFBA60';
-const primaryColor = '#DF1F2D';
+const red = '#DF1F2D';
+const darkRed = `#B11313`;
 const pitchBlack = `#000000`;
 const white = `#FFFFFF`;
 const cosmicCobalt = `#2B3784`;
@@ -13,13 +14,15 @@ export default createTheme({
     },
     palette: {
         common: {
+            red: `${red}`,
+            darkRed: `${darkRed}`,
             arcBlue: `${arcBlue}`,
             arcOrange : `${arcOrange}`,
             white: `${white}`,
             pitchBlack: `${pitchBlack}`
         },
         primary: {
-            main: `${primaryColor}`,
+            main: `${red}`,
         },
         secondary: {
             main: `${cosmicCobalt}`
@@ -29,6 +32,10 @@ export default createTheme({
         }
     },
     typography: {
+        tab: {
+            fontFamily: 'Montserrat', 
+            fontWeight: 300
+        },
         h3: {
             fontWeight: 300
         },
