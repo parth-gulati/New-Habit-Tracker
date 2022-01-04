@@ -17,10 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/spiderman.svg";
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 
 const pages = [
   { name: "Tracker", link: "/tracker" },
@@ -82,20 +79,28 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
   },
 }));
 
-const StyledList = styled(List)(({theme})=>({
-  
-    backgroundColor: theme.palette.primary
-  
+const StyledListItemText = styled(ListItemText)(({theme})=>({
+  ...theme.typography.tab,
+  color: theme.palette.common.white,
+  textAlign: 'center'
+}))
+
+const StyledListItemButton = styled(ListItemButton)(({theme})=>({
+  minHeight: 50
 }))
 
 const StyledListItem = styled(ListItem)(({theme})=>({
   minWidth: 150,
   paddingLeft: 'auto',
+
 }))
 
 const StyledDrawer = styled(SwipeableDrawer)(({theme})=>({
   "& .MuiDrawer-paper": {
     backgroundColor: theme.palette.common.red
+  },
+  '& .Mui-selected': {
+    backgroundColor: theme.palette.common.darkRed
   }
 }))
 
@@ -117,15 +122,15 @@ const ResponsiveAppBar = () => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
-        <StyledList disablePadding>
-          {pages.map((page)=>(
-            <StyledListItem component={Link} to={page.link} divider key={page.name} disablePadding>
-            <ListItemButton onClick={()=>{setOpenDrawer(false);}}>
-              <ListItemText primary={page.name}/>
-            </ListItemButton>
+        <List disablePadding>
+          {pages.map((page, index)=>(
+            <StyledListItem selected={currentTab === index} component={Link} to={page.link} divider key={page.name} disablePadding>
+            <StyledListItemButton onClick={()=>{setOpenDrawer(false); setCurrentTab(index)}}>
+              <StyledListItemText disableTypography primary={page.name}/>
+            </StyledListItemButton>
             </StyledListItem>
           ))}
-        </StyledList>
+        </List>
         </StyledDrawer>
     </>
   );
@@ -183,31 +188,7 @@ const ResponsiveAppBar = () => {
               >
                 <MenuIcon />
               </IconButton>
-              {drawer}
-              {/* <StyledMenu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    {page.name}
-                  </MenuItem>
-                ))}
-              </StyledMenu> */}
+              {drawer} 
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <LogoContainer
