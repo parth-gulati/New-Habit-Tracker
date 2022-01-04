@@ -10,7 +10,8 @@ function App() {
         <BrowserRouter>
         <Header/>
         <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<div>Login</div>} />
+        <Route path="/tracker" element={<div>Tracker</div>} />
         <Route path="/stats" element={<div>Stats</div>} />
         <Route path="/about" element={<div>About</div>} />
         <Route path="/login" element={<div>Login</div>} />
