@@ -161,6 +161,8 @@ const ResponsiveAppBar = () => {
           <Toolbar disableGutters={false}>
             <LogoContainer
               size="large"
+              component={Link}
+              to="/"
               edge="start"
               color="inherit"
               aria-label="menu"
@@ -194,6 +196,8 @@ const ResponsiveAppBar = () => {
               <LogoContainer
                 size="large"
                 edge="start"
+                component={Link}
+                to="/"
                 color="inherit"
                 aria-label="menu"
               >
