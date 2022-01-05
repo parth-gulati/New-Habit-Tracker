@@ -12,11 +12,24 @@ export default createTheme({
     customizeToolbar: {
         minHeight: 36
     },
+    overrides: {
+        MuiListItem: {
+           root: {
+              "&$selected": {
+                 backgroundColor: `${darkRed}`,
+                 "&:hover": {
+                    backgroundColor: "orange",
+                 },
+              },
+           },
+        },
+    },
     palette: {
         common: {
             red: `${red}`,
             darkRed: `${darkRed}`,
             arcBlue: `${arcBlue}`,
+            blue: `${cosmicCobalt}`,
             arcOrange : `${arcOrange}`,
             white: `${white}`,
             pitchBlack: `${pitchBlack}`

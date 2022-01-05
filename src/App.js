@@ -3,6 +3,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from '../src/components/ui/Theme'
 import Header from '../src/components/ui/Header'
 import { Routes, BrowserRouter, Route} from "react-router-dom";
+import Footer from "./components/ui/Footer";
+import Login from "./components/pages/Login";
 
 function App() {
   return (
@@ -10,7 +12,7 @@ function App() {
         <BrowserRouter>
         <Header/>
         <Routes>
-        <Route path="/" element={<div>Login</div>} />
+        <Route path="/" element={<Login/>} />
         <Route path="/tracker" element={<div>Tracker</div>} />
         <Route path="/stats" element={<div>Stats</div>} />
         <Route path="/about" element={<div>About</div>} />

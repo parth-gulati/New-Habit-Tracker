@@ -24,7 +24,7 @@ const pages = [
   { name: "Stats", link: "/stats" },
   { name: "About", link: "/about" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Logout"];
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   fontFamily: "Montserrat",
@@ -227,7 +227,7 @@ const ResponsiveAppBar = () => {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     sx={{ bgcolor: `#B11313` }}
-                    alt="Remy Sharp"
+                    alt="Rando User"
                     src="/static/images/avatar/2.jpg"
                   />
                 </IconButton>
