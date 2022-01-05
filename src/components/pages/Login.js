@@ -1,22 +1,30 @@
-import { Grid, Typography, Paper, TextField } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Paper,
+  TextField,
+  Button,
+} from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const StyledDiv = styled(`div`)(({ theme }) => ({}));
 
+const StyledLink = styled(Typography)(({theme})=>({
+  color: theme.palette.common.red,
+  '&:hover': {
+    color: theme.palette.common.darkRed
+  }
+}))
+
 const StyledTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: theme.palette.common.red,
-    },
-    "&:hover fieldset": {
-      borderColor: theme.palette.common.red + `95`,
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.common.red,
-    },
-  },
+ 
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: "100%",
 }));
 
 const StyledHeading = styled(Typography)(({ theme }) => ({
@@ -31,6 +39,11 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   return (
     <StyledDiv>
       <Grid alignItems="center" justifyContent="center" container>
@@ -75,6 +88,10 @@ export default function Login() {
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item width="80%" style={{ marginTop: "2rem" }}>
@@ -83,7 +100,18 @@ export default function Login() {
                   id="outlined-basic"
                   label="Password"
                   variant="outlined"
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
+              </Grid>
+              <Grid item style={{ marginTop: "3rem", width: "50%" }}>
+                <StyledButton variant="contained">{"Sign In"}</StyledButton>
+              </Grid>
+              <Grid item style={{ marginTop: "1.5rem"}}>
+                <StyledLink variant="body2" component={Link} to='/forgot-password'>{"Forgot Password?"}</StyledLink>
               </Grid>
             </Grid>
           </StyledPaper>
