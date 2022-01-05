@@ -45,6 +45,7 @@ export default createTheme({
         }
     },
     typography: {
+        fontFamily: 'Montserrat',
         tab: {
             fontFamily: 'Montserrat', 
             fontWeight: 300
