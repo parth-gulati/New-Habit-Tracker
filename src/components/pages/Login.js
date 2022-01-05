@@ -10,13 +10,32 @@ import { styled } from "@mui/system";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+//icons
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import AnchorIcon from '@mui/icons-material/Anchor';
+
+
 const StyledDiv = styled(`div`)(({ theme }) => ({}));
+
+const ForgotPassword = styled(Typography)(({theme})=>({
+  color: theme.palette.common.red + '90',
+  '&:hover': {
+    color: theme.palette.common.red
+  },
+  fontSize: '0.8rem',
+  textDecoration: 'none',
+}))
 
 const StyledLink = styled(Typography)(({theme})=>({
   color: theme.palette.common.red,
   '&:hover': {
     color: theme.palette.common.darkRed
   }
+}))
+
+const StyledTypography = styled(Typography)(({theme})=>({
+  fontSize: '1rem'
 }))
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -52,7 +71,7 @@ export default function Login() {
         </Grid>
       </Grid>
       <Grid justifyContent="center" container>
-        <Grid item xs={10} sm={8} md={6} lg={4}>
+        <Grid item xs={10} sm={8} md={5} lg={3}>
           <StyledPaper elevation={24}>
             <Grid
               container
@@ -63,26 +82,35 @@ export default function Login() {
             >
               <Grid style={{ marginTop: "50px" }} xs={4} item>
                 <div style={{ display: "flex" }}>
-                  <Typography variant="h6" style={{ fontWeight: 300 }}>
+                  <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                     Sign in for&nbsp;{" "}
-                  </Typography>
-                  <TextLoop>
-                    <Typography variant="h6" style={{ fontWeight: 300 }}>
+                  </StyledTypography>
+                  
+                  <TextLoop interval={2000}>
+                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                       {" "}
                       logging habits.{" "}
-                    </Typography>
-                    <Typography variant="h6" style={{ fontWeight: 300 }}>
+                    </StyledTypography>
+                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                       {" "}
                       logging lifestyle.{" "}
-                    </Typography>
-                    <Typography variant="h6" style={{ fontWeight: 300 }}>
+                    </StyledTypography>
+                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                       {" "}
                       logging wins.{" "}
-                    </Typography>
+                    </StyledTypography>
+                  </TextLoop>&nbsp;
+                  <TextLoop  interval={2000}>
+                    <AnchorIcon style={{color: `#B11313`}}/>
+                    <FavoriteBorderIcon style={{color: `#B11313`}}/>
+                    <EmojiEventsIcon style={{color: `#B11313`}}/>
                   </TextLoop>
                 </div>
               </Grid>
-              <Grid item width="80%" style={{ marginTop: "3rem" }}>
+              <Grid item>
+                <Typography variant="body2"></Typography>
+              </Grid>
+              <Grid item width="80%" style={{ marginTop: "2rem" }}>
                 <StyledTextField
                   fullWidth
                   id="outlined-basic"
@@ -107,11 +135,14 @@ export default function Login() {
                   }}
                 />
               </Grid>
+              <Grid item style={{marginTop: "1rem", width: '80%', display: 'flex', justifyContent: 'right'}}>
+              <ForgotPassword variant="body2" component={Link} to='/forgot-password'>{"Forgot Password?"}</ForgotPassword>
+              </Grid>
               <Grid item style={{ marginTop: "3rem", width: "50%" }}>
                 <StyledButton variant="contained">{"Sign In"}</StyledButton>
               </Grid>
               <Grid item style={{ marginTop: "1.5rem"}}>
-                <StyledLink variant="body2" component={Link} to='/forgot-password'>{"Forgot Password?"}</StyledLink>
+                <StyledLink style={{textDecoration: 'none'}} variant="body2" component={Link} to='/signup'>{"Noobie? Sign up"}</StyledLink>
               </Grid>
             </Grid>
           </StyledPaper>
