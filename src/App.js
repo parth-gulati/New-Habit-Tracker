@@ -5,6 +5,7 @@ import Header from '../src/components/ui/Header'
 import { Routes, BrowserRouter, Route} from "react-router-dom";
 import Footer from "./components/ui/Footer";
 import Login from "./components/pages/Login";
+import SignUp from "./components/pages/SignUp";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Header/>
         <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/tracker" element={<div>Tracker</div>} />
+        <Route path="/signup" element={<SignUp/>} />
         <Route path="/stats" element={<div>Stats</div>} />
         <Route path="/about" element={<div>About</div>} />
         <Route path="/login" element={<div>Login</div>} />
