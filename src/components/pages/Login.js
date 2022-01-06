@@ -15,6 +15,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AnchorIcon from '@mui/icons-material/Anchor';
 
+//firebase stuff
+
 
 const StyledDiv = styled(`div`)(({ theme }) => ({}));
 
