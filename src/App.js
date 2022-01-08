@@ -8,9 +8,13 @@ import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
 import {app} from './firebase'
+import { getAuth } from "firebase/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 function App() {
-  console.log(app)
+  const authentication = getAuth();
+  const [user, loading, error] = useAuthState(authentication);
+  console.log(user)
   return (
       <ThemeProvider theme={theme}>
         <BrowserRouter>

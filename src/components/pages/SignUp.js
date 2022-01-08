@@ -2,13 +2,14 @@ import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AnchorIcon from "@mui/icons-material/Anchor";
+import CircularProgress from '@mui/material/CircularProgress';
 
 //Toastr
 import { ToastContainer, toast } from 'react-toastify';
@@ -60,10 +61,13 @@ const StyledHeading = styled(Typography)(({ theme }) => ({
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   marginTop: "3rem",
-  height: "30rem",
+  height: "100%",
 }));
 
 export default function SignUp() {
+
+  let navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -78,6 +82,7 @@ export default function SignUp() {
   });
 
   const handleSignUp = (values) => {
+    setLoading(true)
     const authentication = getAuth();
     console.log(values);
     createUserWithEmailAndPassword(
@@ -86,9 +91,14 @@ export default function SignUp() {
       values.password
     )
       .then((response) => {
-        toast.success('User Registered Successfully')
+        setLoading(false)
+        toast.success('User Registered Successfully', {autoClose: 2500})
+        setTimeout(()=>{
+          navigate('/')
+        }, 2500)
       })
       .catch((err) => {
+        setLoading(false)
         if(err.message.includes('auth/email-already-in-use')){
         toast.error('Email Already In Use')
         }
@@ -206,7 +216,8 @@ export default function SignUp() {
                 </Grid>
                 <Grid item style={{ marginTop: "3rem", width: "50%" }}>
                   <StyledButton type="submit" variant="contained">
-                    {"Sign Up"}
+{ !loading ? "Sign Up" :
+                  <CircularProgress style={{maxWidth: '1.5rem', maxHeight: '1.5rem', opacity: 0.8}} color="secondary" />}
                   </StyledButton>
                 </Grid>
                 <Grid item style={{ marginTop: "1.5rem" }}>

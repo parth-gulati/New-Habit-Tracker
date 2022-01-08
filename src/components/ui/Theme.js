@@ -38,7 +38,7 @@ export default createTheme({
             main: `${red}`,
         },
         secondary: {
-            main: `${cosmicCobalt}`
+            main: `${white}`
         },
         dark: {
             main: `${pitchBlack}`

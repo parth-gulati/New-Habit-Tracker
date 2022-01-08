@@ -3,13 +3,32 @@ import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AnchorIcon from "@mui/icons-material/Anchor";
 
-//firebase stuff
+//Toastr
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+//firebase
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+//Formik Validation
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
 
 const StyledDiv = styled(`div`)(({ theme }) => ({}));
 
@@ -47,121 +66,163 @@ const StyledHeading = styled(Typography)(({ theme }) => ({
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   marginTop: "3rem",
-  height: "30rem",
+  height: "100%",
 }));
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      handleSignIn(values)
+    },
+  });
+
+  const handleSignIn = (values) => {
+    const authentication = getAuth();
+    console.log(values);
+    signInWithEmailAndPassword(
+      authentication,
+      values.email,
+      values.password
+    )
+      .then((response) => {
+        toast.success('User Registered Successfully')
+      })
+      .catch((err) => {
+        if(err.message.includes('auth/email-already-in-use')){
+        toast.error('Email Already In Use')
+        }
+      });
+  };
 
   return (
     <StyledDiv>
-      <Grid alignItems="center" justifyContent="center" container>
-        <Grid item>
-          <StyledHeading variant="h3">Login</StyledHeading>
+      <ToastContainer />
+      <form onSubmit={formik.handleSubmit}>
+        <Grid alignItems="center" justifyContent="center" container>
+          <Grid item>
+            <StyledHeading variant="h3">Login</StyledHeading>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid justifyContent="center" container>
-        <Grid item xs={10} sm={8} md={5} lg={3}>
-          <StyledPaper elevation={24}>
-            <Grid
-              container
-              spacing={0}
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Grid style={{ marginTop: "50px" }} xs={4} item>
-                <div style={{ display: "flex" }}>
-                  <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
-                    Sign in for&nbsp;{" "}
-                  </StyledTypography>
-                  <TextLoop interval={2000}>
-                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
-                      {" "}
-                      logging habits.{" "}
-                    </StyledTypography>
-                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
-                      {" "}
-                      logging lifestyle.{" "}
-                    </StyledTypography>
-                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
-                      {" "}
-                      logging wins.{" "}
-                    </StyledTypography>
-                  </TextLoop>
-                  &nbsp;
-                  <TextLoop interval={2000}>
-                    <AnchorIcon style={{ color: `#B11313` }} />
-                    <FavoriteBorderIcon style={{ color: `#B11313` }} />
-                    <EmojiEventsIcon style={{ color: `#B11313` }} />
-                  </TextLoop>
-                </div>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2"></Typography>
-              </Grid>
-              <Grid item width="80%" style={{ marginTop: "2rem" }}>
-                <StyledTextField
-                  fullWidth
-                  id="outlined-basic"
-                  label="Email"
-                  variant="outlined"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item width="80%" style={{ marginTop: "2rem" }}>
-                <StyledTextField
-                  fullWidth
-                  id="outlined-basic"
-                  label="Password"
-                  variant="outlined"
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </Grid>
+        <Grid justifyContent="center" container>
+          <Grid item xs={10} sm={8} md={5} lg={3}>
+            <StyledPaper elevation={24}>
               <Grid
-                item
-                style={{
-                  marginTop: "1rem",
-                  width: "80%",
-                  display: "flex",
-                  justifyContent: "right",
-                }}
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
               >
-                <ForgotPassword
-                  variant="body2"
-                  component={Link}
-                  to="/forgot-password"
+                <Grid style={{ marginTop: "50px" }} xs={4} item>
+                  <div style={{ display: "flex" }}>
+                    <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
+                      Sign in for&nbsp;{" "}
+                    </StyledTypography>
+                    <TextLoop interval={2000}>
+                      <StyledTypography
+                        variant="h6"
+                        style={{ fontWeight: 300 }}
+                      >
+                        {" "}
+                        logging habits.{" "}
+                      </StyledTypography>
+                      <StyledTypography
+                        variant="h6"
+                        style={{ fontWeight: 300 }}
+                      >
+                        {" "}
+                        logging lifestyle.{" "}
+                      </StyledTypography>
+                      <StyledTypography
+                        variant="h6"
+                        style={{ fontWeight: 300 }}
+                      >
+                        {" "}
+                        logging wins.{" "}
+                      </StyledTypography>
+                    </TextLoop>
+                    &nbsp;
+                    <TextLoop interval={2000}>
+                      <AnchorIcon style={{ color: `#B11313` }} />
+                      <FavoriteBorderIcon style={{ color: `#B11313` }} />
+                      <EmojiEventsIcon style={{ color: `#B11313` }} />
+                    </TextLoop>
+                  </div>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2"></Typography>
+                </Grid>
+                <Grid item width="80%" style={{ marginTop: "2rem" }}>
+                  <StyledTextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    variant="outlined"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                </Grid>
+                <Grid item width="80%" style={{ marginTop: "2rem" }}>
+                  <StyledTextField
+                    fullWidth
+                    variant="outlined"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
+                  />
+                </Grid>
+                <Grid
+                  item
+                  style={{
+                    marginTop: "1rem",
+                    width: "80%",
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
                 >
-                  {"Forgot Password?"}
-                </ForgotPassword>
+                  <ForgotPassword
+                    variant="body2"
+                    component={Link}
+                    to="/forgot-password"
+                  >
+                    {"Forgot Password?"}
+                  </ForgotPassword>
+                </Grid>
+                <Grid item style={{ marginTop: "3rem", width: "50%" }}>
+                  <StyledButton type="submit" variant="contained">{"Sign In"}</StyledButton>
+                </Grid>
+                <Grid item style={{ marginTop: "1.5rem" }}>
+                  <StyledLink
+                    style={{ textDecoration: "none" }}
+                    variant="body2"
+                    component={Link}
+                    to="/signup"
+                  >
+                    {"Noobie? Sign up"}
+                  </StyledLink>
+                </Grid>
               </Grid>
-              <Grid item style={{ marginTop: "3rem", width: "50%" }}>
-                <StyledButton variant="contained">{"Sign In"}</StyledButton>
-              </Grid>
-              <Grid item style={{ marginTop: "1.5rem" }}>
-                <StyledLink
-                  style={{ textDecoration: "none" }}
-                  variant="body2"
-                  component={Link}
-                  to="/signup"
-                >
-                  {"Noobie? Sign up"}
-                </StyledLink>
-              </Grid>
-            </Grid>
-          </StyledPaper>
+            </StyledPaper>
+          </Grid>
         </Grid>
-      </Grid>
+      </form>
     </StyledDiv>
   );
 }
