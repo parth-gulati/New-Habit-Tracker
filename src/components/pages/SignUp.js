@@ -69,6 +69,7 @@ export default function SignUp() {
     initialValues: {
       email: "",
       password: "",
+      forgotPassword: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
