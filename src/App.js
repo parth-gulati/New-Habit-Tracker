@@ -7,8 +7,10 @@ import Footer from "./components/ui/Footer";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
+import {app} from './firebase'
 
 function App() {
+  console.log(app)
   return (
       <ThemeProvider theme={theme}>
         <BrowserRouter>

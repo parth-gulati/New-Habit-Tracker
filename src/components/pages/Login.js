@@ -1,48 +1,39 @@
-import {
-  Grid,
-  Typography,
-  Paper,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 //icons
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AnchorIcon from '@mui/icons-material/Anchor';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import AnchorIcon from "@mui/icons-material/Anchor";
 
 //firebase stuff
 
-
 const StyledDiv = styled(`div`)(({ theme }) => ({}));
 
-const ForgotPassword = styled(Typography)(({theme})=>({
-  color: theme.palette.common.red + '90',
-  '&:hover': {
-    color: theme.palette.common.red
+const ForgotPassword = styled(Typography)(({ theme }) => ({
+  color: theme.palette.common.red + "90",
+  "&:hover": {
+    color: theme.palette.common.red,
   },
-  fontSize: '0.8rem',
-  textDecoration: 'none',
-}))
-
-const StyledLink = styled(Typography)(({theme})=>({
-  color: theme.palette.common.red,
-  '&:hover': {
-    color: theme.palette.common.darkRed
-  }
-}))
-
-const StyledTypography = styled(Typography)(({theme})=>({
-  fontSize: '1rem'
-}))
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
- 
+  fontSize: "0.8rem",
+  textDecoration: "none",
 }));
+
+const StyledLink = styled(Typography)(({ theme }) => ({
+  color: theme.palette.common.red,
+  "&:hover": {
+    color: theme.palette.common.darkRed,
+  },
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  fontSize: "1rem",
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({}));
 
 const StyledButton = styled(Button)(({ theme }) => ({
   width: "100%",
@@ -87,7 +78,6 @@ export default function Login() {
                   <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                     Sign in for&nbsp;{" "}
                   </StyledTypography>
-                  
                   <TextLoop interval={2000}>
                     <StyledTypography variant="h6" style={{ fontWeight: 300 }}>
                       {" "}
@@ -101,11 +91,12 @@ export default function Login() {
                       {" "}
                       logging wins.{" "}
                     </StyledTypography>
-                  </TextLoop>&nbsp;
-                  <TextLoop  interval={2000}>
-                    <AnchorIcon style={{color: `#B11313`}}/>
-                    <FavoriteBorderIcon style={{color: `#B11313`}}/>
-                    <EmojiEventsIcon style={{color: `#B11313`}}/>
+                  </TextLoop>
+                  &nbsp;
+                  <TextLoop interval={2000}>
+                    <AnchorIcon style={{ color: `#B11313` }} />
+                    <FavoriteBorderIcon style={{ color: `#B11313` }} />
+                    <EmojiEventsIcon style={{ color: `#B11313` }} />
                   </TextLoop>
                 </div>
               </Grid>
@@ -137,14 +128,35 @@ export default function Login() {
                   }}
                 />
               </Grid>
-              <Grid item style={{marginTop: "1rem", width: '80%', display: 'flex', justifyContent: 'right'}}>
-              <ForgotPassword variant="body2" component={Link} to='/forgot-password'>{"Forgot Password?"}</ForgotPassword>
+              <Grid
+                item
+                style={{
+                  marginTop: "1rem",
+                  width: "80%",
+                  display: "flex",
+                  justifyContent: "right",
+                }}
+              >
+                <ForgotPassword
+                  variant="body2"
+                  component={Link}
+                  to="/forgot-password"
+                >
+                  {"Forgot Password?"}
+                </ForgotPassword>
               </Grid>
               <Grid item style={{ marginTop: "3rem", width: "50%" }}>
                 <StyledButton variant="contained">{"Sign In"}</StyledButton>
               </Grid>
-              <Grid item style={{ marginTop: "1.5rem"}}>
-                <StyledLink style={{textDecoration: 'none'}} variant="body2" component={Link} to='/signup'>{"Noobie? Sign up"}</StyledLink>
+              <Grid item style={{ marginTop: "1.5rem" }}>
+                <StyledLink
+                  style={{ textDecoration: "none" }}
+                  variant="body2"
+                  component={Link}
+                  to="/signup"
+                >
+                  {"Noobie? Sign up"}
+                </StyledLink>
               </Grid>
             </Grid>
           </StyledPaper>

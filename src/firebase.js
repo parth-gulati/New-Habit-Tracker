@@ -1,8 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import firebase from 'firebase'
-import { getAnalytics } from "firebase/analytics";
-require('firebase/auth')
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,60 +18,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
 
-//const analytics = getAnalytics(app);
-
-// signing in with email and password
-
-const signInWithEmailAndPassword = async (email, password) => {
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-    }
-};
-
-//registering with email and password
-const registerWithEmailAndPassword = async (name, email, password) => {
-    try {
-      const res = await auth.createUserWithEmailAndPassword(email, password);
-      const user = res.user;
-      await db.collection("users").add({
-        uid: user.uid,
-        name,
-        authProvider: "local",
-        email,
-      });
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-    }
-};
-
-//reset password
-const sendPasswordResetEmail = async (email) => {
-    try {
-      await auth.sendPasswordResetEmail(email);
-      alert("Password reset link sent!");
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-    }
-};
-
-//logout
-const logout = () => {
-    auth.signOut();
-};
-
-export {
-    auth,
-    db,
-    signInWithEmailAndPassword,
-    registerWithEmailAndPassword,
-    sendPasswordResetEmail,
-    logout,
-};
+export {app}
