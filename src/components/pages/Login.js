@@ -90,11 +90,16 @@ export default function Login() {
       values.password
     )
       .then((response) => {
-        toast.success('User Registered Successfully')
+        toast.success('Logged In Successfully')
       })
       .catch((err) => {
-        if(err.message.includes('auth/email-already-in-use')){
-        toast.error('Email Already In Use')
+        console.log(err)
+        if(err.message.includes('auth/wrong-password')){
+        toast.error('Password is incorrect')
+        }else if(err.message.includes('auth/user-not-found')){
+          toast.error('User not found')
+        }else{
+          toast.error('Unexpected error has occured')
         }
       });
   };
