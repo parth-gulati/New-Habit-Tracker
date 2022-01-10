@@ -8,12 +8,15 @@ import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
 import {onAuthStateChange} from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import {UserContext} from './components/context/UserContext'
 import {auth} from './firebase'
+import Loader from "./components/ui/Loader";
 
 function App() {
 
   const [user, setUser] = useState( {loggedIn: false, user: null} );
+  const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userr) => { // detaching the listener
@@ -33,7 +36,8 @@ function App() {
       <UserContext.Provider value={user}>
         <>
         <Header />
-          <Routes>
+        {!loading && 
+          (<Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/forgot-password" element={<ResetPassword />} />
@@ -43,7 +47,9 @@ function App() {
             <Route path="/login" element={<div>Login</div>} />
             <Route path="/account" element={<div>Account</div>} />
             <Route path="/profile" element={<div>Profile</div>} />
-          </Routes>
+          </Routes>)}
+          {loading && <Loader/>}
+          
           </>
         </UserContext.Provider>
       </BrowserRouter>
