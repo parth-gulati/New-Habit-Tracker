@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
@@ -6,11 +5,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import React from "react";
 import Loader from "./components/ui/Loader";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDy_Xf2vasfWoV0oLMX6n1xS6bEFEQAlWk",
   authDomain: "habit-tracker-1a8d5.firebaseapp.com",
