@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import CircularProgress from '@mui/material/CircularProgress';
 
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -71,6 +72,9 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Login() {
+
+  const [loading, setLoading] = useState(false)
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -83,17 +87,17 @@ export default function Login() {
   });
 
   const handleSignIn = (values) => {
-    const authentication = getAuth();
-    console.log(values);
-    signInWithEmailAndPassword(
-      authentication,
+    setLoading(true)
+    auth.signInWithEmailAndPassword(
       values.email,
       values.password
     )
       .then((response) => {
+        setLoading(false)
         toast.success('Logged In Successfully')
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
         if(err.message.includes('auth/wrong-password')){
         toast.error('Password is incorrect')
@@ -212,7 +216,10 @@ export default function Login() {
                   </ForgotPassword>
                 </Grid>
                 <Grid item style={{ marginTop: "3rem", width: "50%" }}>
-                  <StyledButton type="submit" variant="contained">{"Sign In"}</StyledButton>
+                  <StyledButton type="submit" variant="contained">
+                  { !loading ? "Sign In" :
+                  <CircularProgress style={{maxWidth: '1.5rem', maxHeight: '1.5rem', opacity: 0.8}} color="secondary" />}
+                    </StyledButton>
                 </Grid>
                 <Grid item style={{ marginTop: "1.5rem" }}>
                   <StyledLink

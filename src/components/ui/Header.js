@@ -16,8 +16,10 @@ import { SwipeableDrawer, List, ListItem } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/spiderman.svg";
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import { auth } from "../../firebase";
+import { UserContext } from "../context/UserContext";
 
 const pages = [
   { name: "Tracker", link: "/tracker" },
@@ -79,30 +81,29 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
   },
 }));
 
-const StyledListItemText = styled(ListItemText)(({theme})=>({
+const StyledListItemText = styled(ListItemText)(({ theme }) => ({
   ...theme.typography.tab,
   color: theme.palette.common.white,
-  textAlign: 'center'
-}))
+  textAlign: "center",
+}));
 
-const StyledListItemButton = styled(ListItemButton)(({theme})=>({
-  minHeight: 50
-}))
+const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
+  minHeight: 50,
+}));
 
-const StyledListItem = styled(ListItem)(({theme})=>({
+const StyledListItem = styled(ListItem)(({ theme }) => ({
   minWidth: 150,
-  paddingLeft: 'auto',
+  paddingLeft: "auto",
+}));
 
-}))
-
-const StyledDrawer = styled(SwipeableDrawer)(({theme})=>({
+const StyledDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   "& .MuiDrawer-paper": {
-    backgroundColor: theme.palette.common.red
+    backgroundColor: theme.palette.common.red,
   },
-  '& .Mui-selected': {
-    backgroundColor: theme.palette.common.darkRed
-  }
-}))
+  "& .Mui-selected": {
+    backgroundColor: theme.palette.common.darkRed,
+  },
+}));
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -123,15 +124,27 @@ const ResponsiveAppBar = () => {
         onOpen={() => setOpenDrawer(true)}
       >
         <List disablePadding>
-          {pages.map((page, index)=>(
-            <StyledListItem selected={currentTab === index} component={Link} to={page.link} divider key={page.name} disablePadding>
-            <StyledListItemButton onClick={()=>{setOpenDrawer(false); setCurrentTab(index)}}>
-              <StyledListItemText disableTypography primary={page.name}/>
-            </StyledListItemButton>
+          {pages.map((page, index) => (
+            <StyledListItem
+              selected={currentTab === index}
+              component={Link}
+              to={page.link}
+              divider
+              key={page.name}
+              disablePadding
+            >
+              <StyledListItemButton
+                onClick={() => {
+                  setOpenDrawer(false);
+                  setCurrentTab(index);
+                }}
+              >
+                <StyledListItemText disableTypography primary={page.name} />
+              </StyledListItemButton>
             </StyledListItem>
           ))}
         </List>
-        </StyledDrawer>
+      </StyledDrawer>
     </>
   );
 
@@ -146,13 +159,30 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    setOpenDrawer(false);
+    console.log(e.target.innerText);
     setAnchorElNav(null);
+    setAnchorElUser(null);
+    if (e.target.innerText === "Logout") {
+      setAnchorElNav(null);
+      auth
+        .signOut()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const user = React.useContext(UserContext);
+  console.log(user);
 
   return (
     <>
@@ -180,17 +210,19 @@ const ResponsiveAppBar = () => {
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={()=>setOpenDrawer(true)}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              {drawer} 
+              {user.loggedIn && (
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={() => setOpenDrawer(true)}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+              {drawer}
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <LogoContainer
@@ -205,33 +237,36 @@ const ResponsiveAppBar = () => {
               </LogoContainer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <StyledTabsContainer
-                value={currentTab}
-                onChange={setHandleChange}
-                indicatorColor="primary"
-              >
-                {pages.map((page) => (
-                  <StyledTab
-                    component={Link}
-                    to={page.link}
-                    key={page.name}
-                    label={page.name}
-                    onClick={handleCloseNavMenu}
-                  />
-                ))}
-              </StyledTabsContainer>
+              {user.loggedIn && (
+                <StyledTabsContainer
+                  value={currentTab}
+                  onChange={setHandleChange}
+                  indicatorColor="primary"
+                >
+                  {pages.map((page) => (
+                    <StyledTab
+                      component={Link}
+                      to={page.link}
+                      key={page.name}
+                      label={page.name}
+                      onClick={handleCloseNavMenu}
+                    />
+                  ))}
+                </StyledTabsContainer>
+              )}
             </Box>
-
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    sx={{ bgcolor: `#B11313` }}
-                    alt="Rando User"
-                    src="/static/images/avatar/2.jpg"
-                  />
-                </IconButton>
-              </Tooltip>
+              {user.loggedIn && (
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      sx={{ bgcolor: `#B11313` }}
+                      alt="Rando User"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+              )}
               <StyledMenu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"

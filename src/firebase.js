@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import "firebase/compat/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import React from "react";
 import Loader from "./components/ui/Loader";
@@ -15,7 +16,7 @@ const firebaseConfig = {
   measurementId: "G-VDYEJVPWHQ",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase
 export const auth = firebase.auth();
@@ -25,24 +26,6 @@ const FirebaseContext = React.createContext();
 
 export function useFirebase() {
   return React.useContext(FirebaseContext);
-}
-
-export default function FirebaseProvider(props) {
-  const [user, loading] = useAuthState(auth);
-
-  if(loading){
-    return <Loader/>
-  }
-
-    return (
-      <FirebaseContext.Provider
-        value={{
-          user,
-        }}
-      >
-        {props.children}
-      </FirebaseContext.Provider>
-    );
 }
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -70,5 +53,3 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   return userRef;
 };
-
-export { app };

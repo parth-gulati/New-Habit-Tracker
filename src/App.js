@@ -1,20 +1,38 @@
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../src/components/ui/Theme";
 import Header from "../src/components/ui/Header";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
-import Footer from "./components/ui/Footer";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
-import FirebaseProvider from "./firebase";
+import {onAuthStateChange} from "./firebase";
+import {UserContext} from './components/context/UserContext'
+import {auth} from './firebase'
 
 function App() {
+
+  const [user, setUser] = useState( {loggedIn: false, user: null} );
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userr) => { // detaching the listener
+        if (userr) {
+          setUser({loggedIn: true, user: userr}) 
+        } else {
+          setUser({loggedIn: false, user: null}) 
+        }
+    });
+    return () => unsubscribe(); // unsubscribing from the listener when the component is unmounting. 
+}, []);
+
+  
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+      <UserContext.Provider value={user}>
+        <>
         <Header />
-        <FirebaseProvider>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -25,7 +43,8 @@ function App() {
             <Route path="/account" element={<div>Account</div>} />
             <Route path="/profile" element={<div>Profile</div>} />
           </Routes>
-        </FirebaseProvider>
+          </>
+        </UserContext.Provider>
       </BrowserRouter>
     </ThemeProvider>
   );
