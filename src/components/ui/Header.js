@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/system";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SwipeableDrawer, List, ListItem } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -91,16 +91,16 @@ const StyledListItemText = styled(ListItemText)(({ theme }) => ({
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   minHeight: 50,
   "&.Mui-selected": {
-    backgroundColor: theme.palette.common.darkRed
-  }
+    backgroundColor: theme.palette.common.darkRed,
+  },
 }));
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   minWidth: 150,
   paddingLeft: "auto",
   "&.Mui-selected": {
-    backgroundColor: theme.palette.common.darkRed
-  }
+    backgroundColor: theme.palette.common.darkRed,
+  },
 }));
 
 const StyledDrawer = styled(SwipeableDrawer)(({ theme }) => ({
@@ -118,19 +118,20 @@ const ResponsiveAppBar = () => {
   const [currentTab, setCurrentTab] = React.useState(false);
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const iOS =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  React.useEffect(()=>{
-    for(let i=0;i<=pages.length-1;i++){
-      if(pages[i].link === location.pathname){
-        setCurrentTab(i)
-        return
+  React.useEffect(() => {
+    for (let i = 0; i <= pages.length - 1; i++) {
+      if (pages[i].link === location.pathname) {
+        setCurrentTab(i);
+        return;
       }
-      setCurrentTab(false)
+      setCurrentTab(false);
     }
-  }, [location])
+  }, [location]);
 
   const drawer = (
     <>
@@ -187,8 +188,10 @@ const ResponsiveAppBar = () => {
       auth
         .signOut()
         .then((response) => {
-          toast.success("Logged Out Successfully")
-          console.log(response);
+          toast.success("Logged Out Successfully", { autoClose: 1500 });
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         })
         .catch((err) => {
           console.log(err);
@@ -205,7 +208,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <AppBar position="fixed" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters={false}>

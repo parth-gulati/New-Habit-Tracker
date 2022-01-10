@@ -39,6 +39,7 @@ function App() {
             <Route path="/forgot-password" element={<ResetPassword />} />
             <Route path="/stats" element={<div>Stats</div>} />
             <Route path="/about" element={<div>About</div>} />
+            <Route path="/tracker" element={<div>Tracker</div>} />
             <Route path="/login" element={<div>Login</div>} />
             <Route path="/account" element={<div>Account</div>} />
             <Route path="/profile" element={<div>Profile</div>} />

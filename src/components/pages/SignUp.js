@@ -91,10 +91,10 @@ export default function SignUp() {
     )
       .then((response) => {
         setLoading(false)
-        toast.success('User Registered Successfully', {autoClose: 2500})
+        toast.success('User Registered Successfully', {autoClose: 1500})
         setTimeout(()=>{
           navigate('/tracker')
-        }, 2500)
+        }, 1500)
       })
       .catch((err) => {
         setLoading(false)

@@ -105,10 +105,10 @@ export default function Login() {
       .signInWithEmailAndPassword(values.email, values.password)
       .then((response) => {
         setLoading(false);
-        toast.success('Logged In Successfully', {autoClose: 2500})
+        toast.success('Logged In Successfully', {autoClose: 1500})
         setTimeout(()=>{
           navigate('/tracker')
-        }, 2500)
+        }, 1500)
       })
       .catch((err) => {
         setLoading(false);
