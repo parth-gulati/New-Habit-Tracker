@@ -1,11 +1,12 @@
 import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate} from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
+import { UserContext } from "../context/UserContext";
 
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -13,12 +14,11 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AnchorIcon from "@mui/icons-material/Anchor";
 
 //Toastr
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //firebase
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {auth, useFirebase} from '../../firebase'
+import { auth, useFirebase } from "../../firebase";
 
 //Formik Validation
 const validationSchema = yup.object({
@@ -72,8 +72,21 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Login() {
+  const user = React.useContext(UserContext);
+  const navigate = useNavigate()
 
-  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+      auth
+        .signOut()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -82,36 +95,36 @@ export default function Login() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      handleSignIn(values)
+      handleSignIn(values);
     },
   });
 
   const handleSignIn = (values) => {
-    setLoading(true)
-    auth.signInWithEmailAndPassword(
-      values.email,
-      values.password
-    )
+    setLoading(true);
+    auth
+      .signInWithEmailAndPassword(values.email, values.password)
       .then((response) => {
-        setLoading(false)
-        toast.success('Logged In Successfully')
+        setLoading(false);
+        toast.success('Logged In Successfully', {autoClose: 2500})
+        setTimeout(()=>{
+          navigate('/tracker')
+        }, 2500)
       })
       .catch((err) => {
-        setLoading(false)
-        console.log(err)
-        if(err.message.includes('auth/wrong-password')){
-        toast.error('Password is incorrect')
-        }else if(err.message.includes('auth/user-not-found')){
-          toast.error('User not found')
-        }else{
-          toast.error('Unexpected error has occured')
+        setLoading(false);
+        console.log(err);
+        if (err.message.includes("auth/wrong-password")) {
+          toast.error("Password is incorrect");
+        } else if (err.message.includes("auth/user-not-found")) {
+          toast.error("User not found");
+        } else {
+          toast.error("Unexpected error has occured");
         }
       });
   };
 
   return (
     <StyledDiv>
-      <ToastContainer />
       <form onSubmit={formik.handleSubmit}>
         <Grid alignItems="center" justifyContent="center" container>
           <Grid item>
@@ -217,9 +230,19 @@ export default function Login() {
                 </Grid>
                 <Grid item style={{ marginTop: "3rem", width: "50%" }}>
                   <StyledButton type="submit" variant="contained">
-                  { !loading ? "Sign In" :
-                  <CircularProgress style={{maxWidth: '1.5rem', maxHeight: '1.5rem', opacity: 0.8}} color="secondary" />}
-                    </StyledButton>
+                    {!loading ? (
+                      "Sign In"
+                    ) : (
+                      <CircularProgress
+                        style={{
+                          maxWidth: "1.5rem",
+                          maxHeight: "1.5rem",
+                          opacity: 0.8,
+                        }}
+                        color="secondary"
+                      />
+                    )}
+                  </StyledButton>
                 </Grid>
                 <Grid item style={{ marginTop: "1.5rem" }}>
                   <StyledLink

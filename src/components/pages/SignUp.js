@@ -12,7 +12,7 @@ import AnchorIcon from "@mui/icons-material/Anchor";
 import CircularProgress from '@mui/material/CircularProgress';
 
 //Toastr
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 //firebase
@@ -84,7 +84,6 @@ export default function SignUp() {
   const handleSignUp = (values) => {
     setLoading(true)
     const authentication = getAuth();
-    console.log(values);
     createUserWithEmailAndPassword(
       authentication,
       values.email,
@@ -94,7 +93,7 @@ export default function SignUp() {
         setLoading(false)
         toast.success('User Registered Successfully', {autoClose: 2500})
         setTimeout(()=>{
-          navigate('/')
+          navigate('/tracker')
         }, 2500)
       })
       .catch((err) => {
@@ -107,7 +106,6 @@ export default function SignUp() {
 
   return (
     <StyledDiv>
-      <ToastContainer/>
       <form onSubmit={formik.handleSubmit}>
         <Grid alignItems="center" justifyContent="center" container>
           <Grid item>
