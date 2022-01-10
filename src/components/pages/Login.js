@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 //firebase
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {auth, useFirebase} from '../../firebase'
 
 //Formik Validation
 const validationSchema = yup.object({
