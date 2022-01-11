@@ -215,7 +215,7 @@ const ResponsiveAppBar = () => {
             <LogoContainer
               size="large"
               component={Link}
-              to="/"
+              to="/tracker"
               edge="start"
               color="inherit"
               aria-label="menu"
@@ -252,7 +252,7 @@ const ResponsiveAppBar = () => {
                 size="large"
                 edge="start"
                 component={Link}
-                to="/"
+                to="/tracker"
                 color="inherit"
                 aria-label="menu"
               >
