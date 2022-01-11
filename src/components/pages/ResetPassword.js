@@ -1,4 +1,11 @@
-import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
@@ -23,7 +30,7 @@ const StyledLink = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
-  fontSize: "1rem",
+  fontSize: " rem",
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({}));
@@ -52,8 +59,7 @@ const validationSchema = yup.object({
 });
 
 export default function ResetPassword() {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -61,12 +67,15 @@ export default function ResetPassword() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      setLoading(true);
       auth
         .sendPasswordResetEmail(values.email)
         .then(() => {
+          setLoading(false);
           toast.success("Password reset email has been sent");
         })
         .catch((e) => {
+          setLoading(false);
           if (e.code === "auth/user-not-found") {
             toast.error("User not found");
           } else {
@@ -145,7 +154,18 @@ export default function ResetPassword() {
                 </Grid>
                 <Grid item style={{ marginTop: "4rem", width: "50%" }}>
                   <StyledButton type="submit" variant="contained">
-                    {"Reset"}
+                    {loading ? (
+                      <CircularProgress
+                        style={{
+                          maxWidth: "1.5rem",
+                          maxHeight: "1.5rem",
+                          opacity: 0.8,
+                          color: 'white'
+                        }}
+                      />
+                    ) : (
+                      "Reset"
+                    )}
                   </StyledButton>
                 </Grid>
                 <Grid item style={{ marginTop: "4rem" }}>
