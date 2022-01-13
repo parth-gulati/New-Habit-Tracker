@@ -21,6 +21,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { auth } from "../../firebase";
 import { UserContext } from "../context/UserContext";
+import { withEmotionCache } from "@emotion/react";
 
 const pages = [
   { name: "Tracker", link: "/tracker" },
@@ -204,7 +205,7 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const user = React.useContext(UserContext);
-  console.log(user);
+  const email = user.loggedIn ? user.user.email : "Random Dude"
 
   return (
     <>
@@ -284,7 +285,7 @@ const ResponsiveAppBar = ({loading}) => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       sx={{ bgcolor: `#B11313` }}
-                      alt="Rando User"
+                      alt={email.toUpperCase()}
                       src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>

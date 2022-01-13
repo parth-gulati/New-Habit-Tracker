@@ -1,5 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { Link } from "react-router-dom";
 
 const StyledHeading = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.darkRed,
@@ -49,8 +50,9 @@ const About = () => {
               ligula nibh vestibulum magna, quis ullamcorper lorem ex ac eros.
               Duis scelerisque euismod vulputate. Quisque pharetra, velit non
               suscipit rutrum, lorem neque porttitor elit, fringilla mollis mi
-              ligula quis eros.
+              ligula quis eros. Check out my other projects&nbsp;
             </StyledParagraph>
+            <StyledParagraph variant="body" component={Link} to="https://github.com/parth-gulati">here.</StyledParagraph>
             <ParaGrid item style={{marginTop: '3rem'}}>
                 <StyledParagraph variant="body">
                     Regards,
@@ -58,7 +60,7 @@ const About = () => {
             </ParaGrid>
             <ParaGrid item>
                 <Typography style={{fontFamily: 'BrothersideSignature'}} variant="h4">
-                    Parth Gulati
+                    Pattypan
                 </Typography>
             </ParaGrid>
           </ParaGrid>
