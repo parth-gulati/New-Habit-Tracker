@@ -112,7 +112,7 @@ const StyledDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   },
 }));
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({loading}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState(false);
@@ -233,7 +233,7 @@ const ResponsiveAppBar = () => {
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              {user.loggedIn && (
+              {user.loggedIn && !loading && (
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -260,7 +260,7 @@ const ResponsiveAppBar = () => {
               </LogoContainer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {user.loggedIn && (
+              {user.loggedIn && !loading && (
                 <StyledTabsContainer
                   value={currentTab}
                   onChange={setHandleChange}
@@ -279,7 +279,7 @@ const ResponsiveAppBar = () => {
               )}
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              {user.loggedIn && (
+              {user.loggedIn && !loading && (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
