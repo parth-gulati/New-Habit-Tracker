@@ -8,15 +8,17 @@ import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
 import { onAuthStateChange } from "./firebase";
+import './fonts/fonts.css'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { UserContext } from "./components/context/UserContext";
 import { auth } from "./firebase";
+import About from './components/pages/About';
 import Loader from "./components/ui/Loader";
 import PrivateRoute from "./components/ui/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
 function App() {
-  const [user, setUser] = useState({ loggedIn: false, user: null });
+  const [user, setUser] = useState({ loggedIn: true, user: null });
   const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function App() {
       <BrowserRouter>
         <UserContext.Provider value={user}>
           <>
-            <Header />
+            <Header loading={loading} />
             {!loading && (
               <Routes>
                 <Route path="/" element={<Login />} />
@@ -48,7 +50,7 @@ function App() {
                   <Route path="/stats" element={<div>Stats</div>} />
                 </Route>
                 <Route path="/about" element={<PrivateRoute />}>
-                  <Route path="/about" element={<div>About</div>} />
+                  <Route path="/about" element={<About/>} />
                 </Route>
                 <Route path="/tracker" element={<PrivateRoute />}>
                   <Route path="/tracker" element={<div>Tracker</div>} />
