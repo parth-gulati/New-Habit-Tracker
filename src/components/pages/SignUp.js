@@ -2,18 +2,19 @@ import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { createUserProfileDocument } from "../../firebase";
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AnchorIcon from "@mui/icons-material/Anchor";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
 //Toastr
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //firebase
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -22,7 +23,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 const validationSchema = yup.object({
   displayName: yup
     .string("Enter your display name")
-    .matches('^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$')
+    .matches("^[A-Za-zs]{1,}[.]{0,1}[A-Za-zs]{0,}$")
     .required("Display name is required"),
   email: yup
     .string("Enter your email")
@@ -69,16 +70,15 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-
   let navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       forgotPassword: "",
-      displayName: ""
+      displayName: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -87,7 +87,7 @@ export default function SignUp() {
   });
 
   const handleSignUp = (values) => {
-    setLoading(true)
+    setLoading(true);
     const authentication = getAuth();
     createUserWithEmailAndPassword(
       authentication,
@@ -95,17 +95,25 @@ export default function SignUp() {
       values.password
     )
       .then(async (response) => {
-        await createUserProfileDocument(response, { displayName });
-        setLoading(false)
-        toast.success('User Registered Successfully', {autoClose: 1500})
-        setTimeout(()=>{
-          navigate('/tracker')
-        }, 1500)
+        try {
+          console.log(response);
+          await createUserProfileDocument(response.user, {
+            displayName: values.displayName,
+          });
+          setLoading(false);
+          toast.success("User Registered Successfully", { autoClose: 1500 });
+          setTimeout(() => {
+            navigate("/tracker");
+          }, 1500);
+        } catch (err) {
+          console.log(err);
+          return;
+        }
       })
       .catch((err) => {
-        setLoading(false)
-        if(err.message.includes('auth/email-already-in-use')){
-        toast.error('Email Already In Use')
+        setLoading(false);
+        if (err.message.includes("auth/email-already-in-use")) {
+          toast.error("Email Already In Use");
         }
       });
   };
@@ -176,8 +184,13 @@ export default function SignUp() {
                     variant="outlined"
                     value={formik.values.displayName}
                     onChange={formik.handleChange}
-                    error={formik.touched.displayName && Boolean(formik.errors.displayName)}
-                    helperText={formik.touched.displayName && formik.errors.displayName}
+                    error={
+                      formik.touched.displayName &&
+                      Boolean(formik.errors.displayName)
+                    }
+                    helperText={
+                      formik.touched.displayName && formik.errors.displayName
+                    }
                   />
                 </Grid>
                 <Grid item width="80%" style={{ marginTop: "1rem" }}>
@@ -233,8 +246,18 @@ export default function SignUp() {
                 </Grid>
                 <Grid item style={{ marginTop: "3rem", width: "50%" }}>
                   <StyledButton type="submit" variant="contained">
-{ !loading ? "Sign Up" :
-                  <CircularProgress style={{maxWidth: '1.5rem', maxHeight: '1.5rem', opacity: 0.8}} color="secondary" />}
+                    {!loading ? (
+                      "Sign Up"
+                    ) : (
+                      <CircularProgress
+                        style={{
+                          maxWidth: "1.5rem",
+                          maxHeight: "1.5rem",
+                          opacity: 0.8,
+                        }}
+                        color="secondary"
+                      />
+                    )}
                   </StyledButton>
                 </Grid>
                 <Grid item style={{ marginTop: "1.5rem" }}>

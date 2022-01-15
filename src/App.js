@@ -7,7 +7,7 @@ import { Routes, BrowserRouter, Route, Navigate } from "react-router-dom";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
-import { onAuthStateChange } from "./firebase";
+import { createUserProfileDocument, onAuthStateChange } from "./firebase";
 import './fonts/fonts.css'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { UserContext } from "./components/context/UserContext";
@@ -23,11 +23,16 @@ function App() {
   const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userr) => {
+    const unsubscribe = auth.onAuthStateChanged(async (userr) => {
       // detaching the listener
-      if (userr) {
-        setUser({ loggedIn: true, user: userr });
-      } else {
+      if(userr){
+        const userRef = await createUserProfileDocument(userr)
+
+        userRef.onSnapshot(snapshot=>{
+          setUser({ loggedIn: true, user: snapshot.data() });
+        })
+      }
+      else {
         setUser({ loggedIn: false, user: null });
       }
     });

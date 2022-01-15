@@ -212,7 +212,8 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const user = React.useContext(UserContext);
-  const email = user.user ? user.user.email : "Random Dude"
+  console.log(user)
+  const currentUser = user.user
 
   return (
     <>
@@ -292,7 +293,7 @@ const ResponsiveAppBar = ({loading}) => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       sx={{ bgcolor: `#B11313` }}
-                      alt={email.toUpperCase()}
+                      alt={currentUser.displayName}
                       src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>
