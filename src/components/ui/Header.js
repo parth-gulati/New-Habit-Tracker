@@ -180,6 +180,13 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const handleCloseNavMenu = (e) => {
+    if(e.target.innerText === "Profile"){
+      navigate("/profile")
+      setOpenDrawer(false);
+      setAnchorElNav(null);
+      setAnchorElUser(null)
+      return
+    }
     setOpenDrawer(false);
     console.log(e.target.innerText);
     setAnchorElNav(null);
@@ -205,7 +212,7 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const user = React.useContext(UserContext);
-  const email = user.loggedIn ? user.user.email : "Random Dude"
+  const email = user.user ? user.user.email : "Random Dude"
 
   return (
     <>

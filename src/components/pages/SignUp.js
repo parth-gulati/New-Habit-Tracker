@@ -20,6 +20,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 //Formik Validation
 const validationSchema = yup.object({
+  displayName: yup
+    .string("Enter your display name")
+    .matches('^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$')
+    .required("Display name is required"),
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
@@ -73,7 +77,8 @@ export default function SignUp() {
     initialValues: {
       email: "",
       password: "",
-      forgotPassword: ""
+      forgotPassword: "",
+      displayName: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -89,7 +94,8 @@ export default function SignUp() {
       values.email,
       values.password
     )
-      .then((response) => {
+      .then(async (response) => {
+        await createUserProfileDocument(response, { displayName });
         setLoading(false)
         toast.success('User Registered Successfully', {autoClose: 1500})
         setTimeout(()=>{
@@ -162,6 +168,19 @@ export default function SignUp() {
                   <Typography variant="body2"></Typography>
                 </Grid>
                 <Grid item width="80%" style={{ marginTop: "2rem" }}>
+                  <StyledTextField
+                    fullWidth
+                    id="displayName"
+                    name="displayName"
+                    label="Display Name"
+                    variant="outlined"
+                    value={formik.values.displayName}
+                    onChange={formik.handleChange}
+                    error={formik.touched.displayName && Boolean(formik.errors.displayName)}
+                    helperText={formik.touched.displayName && formik.errors.displayName}
+                  />
+                </Grid>
+                <Grid item width="80%" style={{ marginTop: "1rem" }}>
                   <StyledTextField
                     fullWidth
                     id="email"

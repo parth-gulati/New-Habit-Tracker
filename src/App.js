@@ -16,6 +16,7 @@ import About from './components/pages/About';
 import Loader from "./components/ui/Loader";
 import PrivateRoute from "./components/ui/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
+import Profile from "./components/pages/Profile";
 
 function App() {
   const [user, setUser] = useState({ loggedIn: true, user: null });
@@ -59,7 +60,7 @@ function App() {
                   <Route path="/account" element={<div>Account</div>} />
                 </Route>
                 <Route path="/profile" element={<PrivateRoute />}>
-                  <Route path="/profile" element={<div>Profile</div>} />
+                  <Route path="/profile" element={<Profile/>} />
                 </Route>
                 <Route path="/*" element={<NotFound />} />
               </Routes>
