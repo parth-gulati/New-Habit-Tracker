@@ -50,19 +50,31 @@ const About = () => {
               ligula nibh vestibulum magna, quis ullamcorper lorem ex ac eros.
               Duis scelerisque euismod vulputate. Quisque pharetra, velit non
               suscipit rutrum, lorem neque porttitor elit, fringilla mollis mi
-              ligula quis eros. Check out my other projects&nbsp;
+              ligula quis eros.
             </StyledParagraph>
-            <StyledParagraph variant="body" component={Link} to="https://github.com/parth-gulati">here.</StyledParagraph>
-            <ParaGrid item style={{marginTop: '3rem'}}>
-                <StyledParagraph variant="body">
-                    Regards,
-                </StyledParagraph>
-            </ParaGrid>
-            <ParaGrid item>
-                <Typography style={{fontFamily: 'BrothersideSignature'}} variant="h4">
-                    Pattypan
-                </Typography>
-            </ParaGrid>
+          </ParaGrid>
+          <ParaGrid item>
+            <StyledParagraph variant="body">
+              Check out my other projects&nbsp;
+            </StyledParagraph>
+            <StyledParagraph
+              variant="body"
+              component={Link}
+              to="https://github.com/parth-gulati"
+            >
+              here.
+            </StyledParagraph>
+          </ParaGrid>
+          <ParaGrid item style={{ marginTop: "3rem" }}>
+            <StyledParagraph variant="body">Regards,</StyledParagraph>
+          </ParaGrid>
+          <ParaGrid item>
+            <Typography
+              style={{ fontFamily: "BrothersideSignature" }}
+              variant="h4"
+            >
+              Pattypan
+            </Typography>
           </ParaGrid>
         </Grid>
       </Grid>

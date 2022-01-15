@@ -180,6 +180,13 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const handleCloseNavMenu = (e) => {
+    if(e.target.innerText === "Profile"){
+      navigate("/profile")
+      setOpenDrawer(false);
+      setAnchorElNav(null);
+      setAnchorElUser(null)
+      return
+    }
     setOpenDrawer(false);
     console.log(e.target.innerText);
     setAnchorElNav(null);
@@ -205,7 +212,8 @@ const ResponsiveAppBar = ({loading}) => {
   };
 
   const user = React.useContext(UserContext);
-  const email = user.loggedIn ? user.user.email : "Random Dude"
+  console.log(user)
+  const currentUser = user.user
 
   return (
     <>
@@ -285,7 +293,7 @@ const ResponsiveAppBar = ({loading}) => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       sx={{ bgcolor: `#B11313` }}
-                      alt={email.toUpperCase()}
+                      alt={currentUser.displayName}
                       src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>

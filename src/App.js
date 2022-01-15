@@ -7,7 +7,7 @@ import { Routes, BrowserRouter, Route, Navigate } from "react-router-dom";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
-import { onAuthStateChange } from "./firebase";
+import { createUserProfileDocument, onAuthStateChange } from "./firebase";
 import './fonts/fonts.css'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { UserContext } from "./components/context/UserContext";
@@ -16,17 +16,23 @@ import About from './components/pages/About';
 import Loader from "./components/ui/Loader";
 import PrivateRoute from "./components/ui/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
+import Profile from "./components/pages/Profile";
 
 function App() {
   const [user, setUser] = useState({ loggedIn: true, user: null });
   const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userr) => {
+    const unsubscribe = auth.onAuthStateChanged(async (userr) => {
       // detaching the listener
-      if (userr) {
-        setUser({ loggedIn: true, user: userr });
-      } else {
+      if(userr){
+        const userRef = await createUserProfileDocument(userr)
+
+        userRef.onSnapshot(snapshot=>{
+          setUser({ loggedIn: true, user: snapshot.data() });
+        })
+      }
+      else {
         setUser({ loggedIn: false, user: null });
       }
     });
@@ -59,7 +65,7 @@ function App() {
                   <Route path="/account" element={<div>Account</div>} />
                 </Route>
                 <Route path="/profile" element={<PrivateRoute />}>
-                  <Route path="/profile" element={<div>Profile</div>} />
+                  <Route path="/profile" element={<Profile/>} />
                 </Route>
                 <Route path="/*" element={<NotFound />} />
               </Routes>
