@@ -13,10 +13,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { UserContext } from "./components/context/UserContext";
 import { auth } from "./firebase";
 import About from './components/pages/About';
+import Tracker from './components/pages/Tracker/Tracker';
 import Loader from "./components/ui/Loader";
 import PrivateRoute from "./components/ui/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 import Profile from "./components/pages/Profile";
+import NewHabit from "./components/pages/Tracker/NewHabit";
 
 function App() {
   const [user, setUser] = useState({ loggedIn: true, user: null });
@@ -59,7 +61,10 @@ function App() {
                   <Route path="/about" element={<About/>} />
                 </Route>
                 <Route path="/tracker" element={<PrivateRoute />}>
-                  <Route path="/tracker" element={<div>Tracker</div>} />
+                  <Route path="/tracker" element={<Tracker/>} />
+                </Route>
+                <Route path="/new-habit" element={<PrivateRoute />}>
+                  <Route path="/new-habit" element={<NewHabit/>} />
                 </Route>
                 <Route path="/account" element={<PrivateRoute />}>
                   <Route path="/account" element={<div>Account</div>} />

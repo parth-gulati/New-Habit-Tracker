@@ -14,6 +14,7 @@
     "firebase": "^9.6.2",
     "firebaseui": "^6.0.0",
     "formik": "^2.2.9",
+    "gsap": "^3.9.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^4.0.1",

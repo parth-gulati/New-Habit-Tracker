@@ -293,7 +293,7 @@ const ResponsiveAppBar = ({loading}) => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       sx={{ bgcolor: `#B11313` }}
-                      alt={currentUser.displayName}
+                      alt={currentUser? currentUser.displayName : undefined}
                       src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>
