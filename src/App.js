@@ -21,7 +21,7 @@ import Profile from "./components/pages/Profile";
 import NewHabit from "./components/pages/Tracker/NewHabit";
 
 function App() {
-  const [user, setUser] = useState({ loggedIn: true, user: null });
+  const [user, setUser] = useState({ loggedIn: false, user: null });
   const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {

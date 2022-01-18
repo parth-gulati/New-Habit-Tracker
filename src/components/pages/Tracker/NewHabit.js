@@ -1,16 +1,66 @@
-import { Grid, Button, Typography, TextField, ButtonGroup } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Typography,
+  TextField,
+  ButtonGroup,
+} from "@mui/material";
 import theme from "../../ui/Theme";
-import Fab from '@mui/material/Fab';
+import Fab from "@mui/material/Fab";
 import { styled } from "@mui/system";
+import { useState } from "react";
+import ReactCircleColorPicker from "react-circle-color-picker";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-const StyledRoundButton = styled(Fab)(({theme})=>({
-    marginRight: '2rem',
-    [theme.breakpoints.down('md')]: {
-        
-    }
-}))
+const StyledRoundButton = styled(Fab)(({ theme }) => ({
+  marginRight: "2rem",
+  [theme.breakpoints.down("md")]: {},
+}));
+
+let colors = [
+  {
+    hex: "#F00314",
+    selected: true,
+  },
+  {
+    hex: "#FF8019",
+    selected: false,
+  },
+  {
+    hex: "#FAE603",
+    selected: false,
+  },
+  {
+    hex: "#28E10A",
+    selected: false,
+  },
+  {
+    hex: "#3BB5FF",
+    selected: false,
+  },
+  {
+    hex: "#0500C7",
+    selected: false,
+  },
+  {
+    hex: "#5C03FA",
+    selected: false,
+  },
+  {
+    hex: "#DE00ED",
+    selected: false,
+  },
+];
 
 const NewHabit = () => {
+  const [prevColor, setPrevColor] = useState(colors);
+  const [currentColor, setCurrentColor] = useState(colors);
+  const aintSmall = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const handleColorChange = (newColors) => {
+    console.log(newColors)
+    setPrevColor(...newColors)
+  };
   return (
     <Grid
       alignItems="center"
@@ -33,20 +83,26 @@ const NewHabit = () => {
               <Grid item>
                 <TextField fullWidth label="Name"></TextField>
               </Grid>
-              <Grid item marginTop="1.5rem">
-                  <Typography variant="body2">Color</Typography>
+              <Grid item marginTop="2rem">
+                <Typography
+                  variant="body2"
+                  style={{ fontWeight: 500, fontSize: "1rem" }}
+                >
+                  Color
+                </Typography>
               </Grid>
-              <Grid item marginTop="1rem"  alignItems="center" justifyContent="center">
-                  <ButtonGroup width="100%">
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <StyledRoundButton size="small" color="primary"> </StyledRoundButton>
-                  <Fab size="small" color="primary" marginRight="0rem"> </Fab>
-                  </ButtonGroup>
+              <Grid
+                container
+                marginTop="1rem"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <ReactCircleColorPicker
+                  colors={currentColor}
+                  circleSpacing={aintSmall ? 13 : 6}
+                  onChange={handleColorChange}
+                  onClick={(e)=>{console.log(e)}}
+                />
               </Grid>
             </form>
           </Grid>
