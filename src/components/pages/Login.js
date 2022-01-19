@@ -1,7 +1,8 @@
 import { Grid, Typography, Paper, TextField, Button } from "@mui/material";
 import { TextLoop } from "react-text-loop-next";
 import { styled } from "@mui/system";
-import React, { useState, useEffect } from "react";
+import {gsap} from 'gsap'
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate} from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -73,6 +74,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 export default function Login() {
   const user = React.useContext(UserContext);
+  const loginRef = useRef(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -106,6 +108,7 @@ export default function Login() {
       .then((response) => {
         setLoading(false);
         toast.success('Logged In Successfully', {autoClose: 1500})
+        gsap.fromTo(loginRef.current, {opacity: 1}, {opacity: 0, duration: 1})
         setTimeout(()=>{
           navigate('/tracker')
         }, 1500)
@@ -124,7 +127,7 @@ export default function Login() {
   };
 
   return (
-    <StyledDiv>
+    <StyledDiv ref={loginRef}>
       <form onSubmit={formik.handleSubmit}>
         <Grid alignItems="center" justifyContent="center" container>
           <Grid item>

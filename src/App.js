@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../src/components/ui/Theme";
 import Header from "../src/components/ui/Header";
-import { Routes, BrowserRouter, Route, Navigate } from "react-router-dom";
+import { Routes, BrowserRouter, Route, Navigate, useNavigate } from "react-router-dom";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import ResetPassword from "./components/pages/ResetPassword";
@@ -21,7 +21,7 @@ import Profile from "./components/pages/Profile";
 import NewHabit from "./components/pages/Tracker/NewHabit";
 
 function App() {
-  const [user, setUser] = useState({ loggedIn: false, user: null });
+  const [user, setUser] = useState({ loggedIn: true, user: null });
   const [authUser, loading] = useAuthState(auth);
 
   useEffect(() => {
