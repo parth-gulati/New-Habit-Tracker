@@ -242,7 +242,7 @@ const ResponsiveAppBar = ({loading}) => {
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              {user.loggedIn && !loading && (
+              {currentUser && !loading && (
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -269,7 +269,7 @@ const ResponsiveAppBar = ({loading}) => {
               </LogoContainer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {user.loggedIn && !loading && (
+              {currentUser && !loading && (
                 <StyledTabsContainer
                   value={currentTab}
                   onChange={setHandleChange}
@@ -288,7 +288,7 @@ const ResponsiveAppBar = ({loading}) => {
               )}
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              {user.loggedIn && !loading && (
+              {currentUser && !loading && (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
