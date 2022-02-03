@@ -45,15 +45,15 @@ const NewHabit = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [name, setName] = useState('')
+  const [name, setName] = useState("");
   const [selectedDay, setSelectedDay] = useState(-1);
   const [weekday, setWeekday] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
-  
-  const todayDate = new Date()
-  const tomorrowDate = new Date()
-  tomorrowDate.setDate(tomorrowDate.getDate()+1)
+
+  const todayDate = new Date();
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
   //todayDate.setFullYear(todayDate.getFullYear()+1)
 
   const [endDate, endDateChange] = useState(todayDate);
@@ -63,17 +63,17 @@ const NewHabit = () => {
     setSelectedColor(colorCode);
   };
 
-  const handleSubmit = () =>{
+  const handleSubmit = () => {
     const payload = {
       name: name,
       selectedColor: selectedColor,
-      startDate: selectedStartDate, 
+      startDate: selectedStartDate,
       endDate: endDate,
-      frequency: weekday
-    }
-    
-    console.log(payload)
-  }
+      frequency: weekday,
+    };
+
+    console.log(payload);
+  };
 
   return (
     <Grid
@@ -95,7 +95,14 @@ const NewHabit = () => {
           <Grid container direction="column">
             {/* <form> */}
             <Grid item>
-              <TextField value={name} onChange={(e)=>{setName(e.target.value)}} style={{ width: "90%" }} label="Name"></TextField>
+              <TextField
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                style={{ width: "90%" }}
+                label="Name"
+              ></TextField>
             </Grid>
             <Grid item marginTop="1rem">
               <Typography variant="body2">Color</Typography>
@@ -225,29 +232,35 @@ const NewHabit = () => {
                   1 Year
                 </BGButton>
                 <MobileDatePicker
-                open={isOpen}
-                format="d MMM yyyy"
-                minDate={tomorrowDate}
-                onOpen={() => setIsOpen(true)}
-                onClose={() => setIsOpen(false)}
-                value={endDate}
-                renderInput={true}
-                onChange={endDateChange}
-                renderInput={(props) => (
-                  <BGButton
-                    {...props}
-                    variant={selectedDuration === 3 ? "contained" : "outlined"}
-                    onClick={() => {
-                      setSelectedDuration(3);
-                      setIsOpen(true);
-                    }}
-                  >
-                    Custom
-                  </BGButton>
-                )}
-              />
+                  open={isOpen}
+                  format="d MMM yyyy"
+                  minDate={tomorrowDate}
+                  onOpen={() => setIsOpen(true)}
+                  onClose={() => setIsOpen(false)}
+                  value={endDate}
+                  renderInput={true}
+                  onChange={endDateChange}
+                  renderInput={(props) => {
+                    if (props.fullWidth) {
+                      return <TextField {...props} />;
+                    }
+                    return (
+                      <BGButton
+                        {...props}
+                        variant={
+                          selectedDuration === 3 ? "contained" : "outlined"
+                        }
+                        onClick={() => {
+                          setSelectedDuration(3);
+                          setIsOpen(true);
+                        }}
+                      >
+                        Custom
+                      </BGButton>
+                    );
+                  }}
+                />
               </ButtonGroup>
-              
             </Grid>
             <Grid item marginTop="1rem">
               <Typography variant="body2">When</Typography>
@@ -357,9 +370,21 @@ const NewHabit = () => {
               marginTop="3rem"
               style={{ alignItems: "center", justifyContent: "center" }}
             >
-              <Button disabled={!(selectedColor && name && selectedDay && selectedDuration && weekday.length>0)}
-              onClick={handleSubmit}
-              style={{ width: "60%" }}>Create habit</Button>
+              <Button
+                disabled={
+                  !(
+                    selectedColor &&
+                    name &&
+                    selectedDay &&
+                    selectedDuration &&
+                    weekday.length > 0
+                  )
+                }
+                onClick={handleSubmit}
+                style={{ width: "60%" }}
+              >
+                Create habit
+              </Button>
             </Grid>
             {/* </form> */}
           </Grid>
