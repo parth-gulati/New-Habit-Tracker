@@ -52,7 +52,9 @@ const NewHabit = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   const todayDate = new Date()
-  todayDate.setFullYear(todayDate.getFullYear()+1)
+  const tomorrowDate = new Date()
+  tomorrowDate.setDate(tomorrowDate.getDate()+1)
+  //todayDate.setFullYear(todayDate.getFullYear()+1)
 
   const [endDate, endDateChange] = useState(todayDate);
 
@@ -225,6 +227,7 @@ const NewHabit = () => {
                 <MobileDatePicker
                 open={isOpen}
                 format="d MMM yyyy"
+                minDate={tomorrowDate}
                 onOpen={() => setIsOpen(true)}
                 onClose={() => setIsOpen(false)}
                 value={endDate}
