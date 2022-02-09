@@ -1,11 +1,13 @@
 import { Grid, Button, Typography } from "@mui/material";
 import {gsap} from "gsap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getHabit } from "../../../firebase";
 
 const Tracker = () => {
 
   const trackerRef = useRef(null)
+  const [habits, setHabits] = useState([])
   let navigate = useNavigate();
 
   const handleClick = (e) =>{
@@ -14,6 +16,12 @@ const Tracker = () => {
       navigate('/new-habit')
     }, 1000)
   }
+
+  useEffect(async ()=>{
+    await getHabit().then((response)=>{
+      console.log(response)
+    })
+  }, [])
 
   useEffect(()=>{
     gsap.fromTo(trackerRef.current, {opacity: 0}, {opacity: 1, duration: 1})

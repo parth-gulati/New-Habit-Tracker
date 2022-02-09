@@ -10,6 +10,9 @@ import Fab from "@mui/material/Fab";
 import { styled } from "@mui/system";
 import { useState } from "react";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import { auth, createHabit } from "../../../firebase";
+import { toast } from "react-toastify";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const StyledRoundButton = styled(Fab)(
   ({ theme, colorCode, overrideMarginRight }) => ({
@@ -47,32 +50,44 @@ const NewHabit = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [name, setName] = useState("");
   const [selectedDay, setSelectedDay] = useState(-1);
-  const [weekday, setWeekday] = useState([]);
+  //const [weekday, setWeekday] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
+  const [authUser, loading] = useAuthState(auth);
 
   const todayDate = new Date();
   const tomorrowDate = new Date();
   tomorrowDate.setDate(tomorrowDate.getDate() + 1);
   //todayDate.setFullYear(todayDate.getFullYear()+1)
 
-  const [endDate, endDateChange] = useState(todayDate);
+  const [endDate, endDateChange] = useState(null);
 
   const handleClick = (e, colorCode) => {
     console.log(colorCode);
     setSelectedColor(colorCode);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload = {
       name: name,
       selectedColor: selectedColor,
       startDate: selectedStartDate,
       endDate: endDate,
-      frequency: weekday,
+      //frequency: weekday,
+      streak: 0
     };
 
-    console.log(payload);
+    await createHabit(authUser, payload)
+      .then((response) => {
+        if(response!=null){
+          toast.success("Habit successfully created")
+          return
+        }
+        toast.error('Habit already exists')
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -262,7 +277,7 @@ const NewHabit = () => {
                 />
               </ButtonGroup>
             </Grid>
-            <Grid item marginTop="1rem">
+            {/* <Grid item marginTop="1rem">
               <Typography variant="body2">When</Typography>
             </Grid>
             <Grid
@@ -364,7 +379,7 @@ const NewHabit = () => {
                   Sa
                 </BGButton>
               </ButtonGroup>
-            </Grid>
+            </Grid> */}
             <Grid
               container
               marginTop="3rem"
@@ -375,9 +390,9 @@ const NewHabit = () => {
                   !(
                     selectedColor &&
                     name &&
-                    selectedDay &&
-                    selectedDuration &&
-                    weekday.length > 0
+                    selectedStartDate &&
+                    endDate
+                    //weekday.length > 0
                   )
                 }
                 onClick={handleSubmit}

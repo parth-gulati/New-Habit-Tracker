@@ -2,9 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import "firebase/compat/storage";
-import { useAuthState } from "react-firebase-hooks/auth";
 import React from "react";
-import Loader from "./components/ui/Loader";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDy_Xf2vasfWoV0oLMX6n1xS6bEFEQAlWk",
@@ -51,4 +49,63 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   }
 
   return userRef;
+};
+
+export const createHabit = async (userAuth, habitData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  let found;
+
+  try {
+    await userRef
+      .collection("habits")
+      .get()
+      .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        found = data.find((x) => x.name == habitData.name);
+        return null;
+      });
+
+    if (found === undefined) {
+      let res = await userRef
+        .collection("habits")
+        .add(habitData)
+        .then((response) => {
+          return response;
+        });
+
+      return res;
+    }
+  } catch (err) {
+    return null;
+  }
+};
+
+export const getHabit = async (userAuth) => {
+  if (!userAuth) return;
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  let habits;
+
+  try {
+    habits = await userRef
+      .collection("habits")
+      .get()
+      .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(data)
+        return data;
+      });
+    return habits;
+  } catch (err) {
+    return err;
+  }
 };

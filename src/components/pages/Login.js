@@ -106,6 +106,7 @@ export default function Login() {
     auth
       .signInWithEmailAndPassword(values.email, values.password)
       .then((response) => {
+        console.log(response)
         setLoading(false);
         toast.success('Logged In Successfully', {autoClose: 1500})
         gsap.fromTo(loginRef.current, {opacity: 1}, {opacity: 0, duration: 1})
